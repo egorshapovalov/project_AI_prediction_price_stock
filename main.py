@@ -16,7 +16,7 @@ import matplotlib.dates as mdates
 import datetime
 
 import AI
-stylesheet_start = """
+stylesheet_main = """
     QWidget {
     background-color: #FFFFFF; /* Цвет фона контейнера-виджета */
     border: 2px solid #3498DB;
@@ -25,14 +25,20 @@ stylesheet_start = """
     QPushButton {
         background-color: #E74C3C; /* Цвет фона кнопки */
         color: #FFFFFF;
-        padding: 8px 16px;
+        padding: 0px 0px;
         border: 1px solid black;
         border-radius: 3px;
+        font-size: 20px
     }
     QPushButton:hover {
         background-color: #FFFFFF; /* Цвет фона кнопки */
         color: #E74C3C;
     }
+    QPushButton#pushButton_ControlMajor {
+        font-size: 10px
+    }
+    
+    
 
     QLabel {
         color: #2C3E50;
@@ -49,7 +55,7 @@ stylesheet_start = """
     }
 """
 
-stylesheet_main = """
+stylesheet_start = """
     /* Стиль для окна */
     QWidget {
         background-color: #2C3E50; /* Цвет фона окна */
@@ -60,7 +66,7 @@ stylesheet_main = """
     QPushButton {
         background-color: #E74C3C; /* Цвет фона кнопки */
         color: #FFFFFF;
-        padding: 8px 16px;
+        padding: 10px;
         border: 1px solid black;
         border-radius: 3px;
     }
@@ -73,6 +79,7 @@ stylesheet_main = """
     QLabel {
         color: #FFFFFF; /* Цвет текста */
         font-size: 24px;
+       
     }
 """
 
@@ -80,7 +87,7 @@ class Ui_MainWindow(object):
     def setupUi_start(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(390, 372)
-        MainWindow.setStyleSheet(stylesheet_main)
+        MainWindow.setStyleSheet(stylesheet_start)
         MainWindow.setMinimumSize(QtCore.QSize(390, 372))
         MainWindow.setMaximumSize(QtCore.QSize(390, 372))
 
@@ -167,7 +174,7 @@ class Ui_MainWindow(object):
 
         self.widget_control = QtWidgets.QWidget(self.centralwidget)
         self.widget_control.setGeometry(QtCore.QRect(450, 10, 221, 421))
-        self.widget_control.setStyleSheet(stylesheet_start)
+        self.widget_control.setStyleSheet(stylesheet_main)
         self.widget_control.setObjectName("widget_control")
 
 
@@ -213,13 +220,21 @@ class Ui_MainWindow(object):
         self.label_dt_start.setAlignment(QtCore.Qt.AlignCenter)
         self.label_dt_start.setObjectName("label_dt_start")
 
-        self.pushButton_ControlMajor_1 = QtWidgets.QPushButton(self.widget_control_figure)
-        self.pushButton_ControlMajor_1.setGeometry(QtCore.QRect(10, 130, 91, 27))
-        self.pushButton_ControlMajor_1.setObjectName("pushButton_ControlMajor_1")
+        self.pushButton_ControlMajor_back_to_ten = QtWidgets.QPushButton(self.widget_control_figure)
+        self.pushButton_ControlMajor_back_to_ten.setGeometry(QtCore.QRect(10, 130, 43, 27))
+        self.pushButton_ControlMajor_back_to_ten.setObjectName("pushButton_ControlMajor")
 
-        self.pushButton_ControlMajor_2 = QtWidgets.QPushButton(self.widget_control_figure)
-        self.pushButton_ControlMajor_2.setGeometry(QtCore.QRect(110, 130, 91, 27))
-        self.pushButton_ControlMajor_2.setObjectName("pushButton_ControlMajor_2")
+        self.pushButton_ControlMajor_back_to_one = QtWidgets.QPushButton(self.widget_control_figure)
+        self.pushButton_ControlMajor_back_to_one.setGeometry(QtCore.QRect(59, 130, 43, 27))
+        self.pushButton_ControlMajor_back_to_one.setObjectName("pushButton_ControlMajor")
+
+        self.pushButton_ControlMajor_forward_by_one = QtWidgets.QPushButton(self.widget_control_figure)
+        self.pushButton_ControlMajor_forward_by_one.setGeometry(QtCore.QRect(110, 130, 43, 27))
+        self.pushButton_ControlMajor_forward_by_one.setObjectName("pushButton_ControlMajor")
+
+        self.pushButton_ControlMajor_forward_by_ten = QtWidgets.QPushButton(self.widget_control_figure)
+        self.pushButton_ControlMajor_forward_by_ten.setGeometry(QtCore.QRect(159, 130, 43, 27))
+        self.pushButton_ControlMajor_forward_by_ten.setObjectName("pushButton_ControlMajor")
 
         self.widget_OneDay = QtWidgets.QWidget(self.widget_control)
         self.widget_OneDay.setGeometry(QtCore.QRect(0, 0, 221, 211))
@@ -232,7 +247,7 @@ class Ui_MainWindow(object):
         self.dateEdit_priceoneday.setObjectName("dateEdit_priceoneday")
 
         self.label_oneday = QtWidgets.QLabel(self.widget_OneDay)
-        self.label_oneday.setGeometry(QtCore.QRect(50, 10, 110, 22))
+        self.label_oneday.setGeometry(QtCore.QRect(50, 10, 110, 18))
         self.label_oneday.setAlignment(QtCore.Qt.AlignCenter)
         self.label_oneday.setObjectName("label_oneday")
 
@@ -275,10 +290,16 @@ class Ui_MainWindow(object):
         self.label_dt_start.setText(_translate("MainWindow", "От"))
 
         self.xaxis_locater = 1
-        self.pushButton_ControlMajor_1.setText(_translate("MainWindow", "Уменьшить"))
-        self.pushButton_ControlMajor_1.clicked.connect(lambda: self.button_control_figure(1))
-        self.pushButton_ControlMajor_2.setText(_translate("MainWindow", "Увеличить"))
-        self.pushButton_ControlMajor_2.clicked.connect(lambda: self.button_control_figure(2))
+
+        self.pushButton_ControlMajor_back_to_ten.setText(_translate("MainWindow", "<<"))
+        self.pushButton_ControlMajor_back_to_ten.clicked.connect(lambda: self.button_control_figure(1, 10))
+        self.pushButton_ControlMajor_back_to_one.setText(_translate("MainWindow", "<"))
+        self.pushButton_ControlMajor_back_to_one.clicked.connect(lambda: self.button_control_figure(1))
+
+        self.pushButton_ControlMajor_forward_by_ten.setText(_translate("MainWindow", ">>"))
+        self.pushButton_ControlMajor_forward_by_ten.clicked.connect(lambda: self.button_control_figure(2, 10))
+        self.pushButton_ControlMajor_forward_by_one.setText(_translate("MainWindow", ">"))
+        self.pushButton_ControlMajor_forward_by_one.clicked.connect(lambda: self.button_control_figure(2))
 
         self.label_oneday.setText(_translate("MainWindow", "Цена Дня"))
         self.label_text_price_OneDay.setText(_translate("MainWindow", "Значение дня"))
@@ -299,20 +320,20 @@ class Ui_MainWindow(object):
         self.figure.canvas.draw()
         self.button_control_figure(event=3)
 
-    def button_control_figure(self, event=False):
+    def button_control_figure(self, event=False, days=1):
         if event is False:
             return
         elif event == 1 and hasattr(self, 'Table'):
-            date_end = self.Table[0][len(self.Table[0])-1]-datetime.timedelta(days=10)
-            self.dateEdit_end.setDateTime(QtCore.QDateTime(QtCore.QDate(date_end.year, date_end.month, date_end.day), QtCore.QTime(0, 0, 0)))
-            if self.dateEdit_end.date().toPyDate() <= self.dateEdit_start.date().toPyDate():
+            #Уменьшение диапозона графика
+            date_end = self.Table[0][len(self.Table[0])-1]-datetime.timedelta(days=days)
+            if date_end.date() >= self.dateEdit_start.date().toPyDate():
                 self.dateEdit_end.setDateTime(
-                    QtCore.QDateTime(QtCore.QDate(self.Table[0][len(self.Table[0])-1].year, self.Table[0][len(self.Table[0])-1].month, self.Table[0][len(self.Table[0])-1].day), QtCore.QTime(0, 0, 0)))
-                return
-            self.button_update_figure()
+                    QtCore.QDateTime(QtCore.QDate(date_end.year, date_end.month, date_end.day), QtCore.QTime(0, 0, 0)))
+                self.button_update_figure()
             return
         elif event == 2 and hasattr(self, 'Table'):
-            date_end = self.Table[0][len(self.Table[0]) - 1] + datetime.timedelta(days=10)
+            #Увеличение диапозона графика
+            date_end = self.Table[0][len(self.Table[0]) - 1] + datetime.timedelta(days=days)
             self.dateEdit_end.setDateTime(QtCore.QDateTime(QtCore.QDate(date_end.year, date_end.month, date_end.day), QtCore.QTime(0, 0, 0)))
             self.button_update_figure()
             return
