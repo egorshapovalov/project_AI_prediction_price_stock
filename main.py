@@ -89,7 +89,7 @@ class Ui_MainWindow(object):
 
         self.pixmap_logo = QtWidgets.QLabel(self.centralwidget)
         self.pixmap_logo.setGeometry(QtCore.QRect(130, 30, 0, 0))
-        pixmap = QtGui.QPixmap("./6641fdfc2f7e6_1715600911_6641fdfc2f7c1.png")  # Укажите путь к вашему изображению
+        pixmap = QtGui.QPixmap("./icon_128.png")  # Укажите путь к вашему изображению
         self.pixmap_logo.setPixmap(pixmap)
         self.pixmap_logo.resize(pixmap.width(), pixmap.height())
 
@@ -110,7 +110,7 @@ class Ui_MainWindow(object):
 
         self.pixmap_logo_AFKsystem = QtWidgets.QLabel(self.centralwidget)
         self.pixmap_logo_AFKsystem.setGeometry(QtCore.QRect(70, 300, 0, 0))
-        pixmap = QtGui.QPixmap("./6e2531c02a.png")  # Укажите путь к вашему изображению
+        pixmap = QtGui.QPixmap("./logo_AFK.png")  # Укажите путь к вашему изображению
         self.pixmap_logo_AFKsystem.setPixmap(pixmap)
         self.pixmap_logo_AFKsystem.resize(pixmap.width(), pixmap.height())
 
@@ -122,7 +122,7 @@ class Ui_MainWindow(object):
     def retranslateUi_start(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "AFK Система"))
-        icon = QtGui.QIcon('icon.png')
+        icon = QtGui.QIcon('icon_16.png')
         MainWindow.setWindowIcon(icon)
         self.label.setText(_translate("MainWindow", "Прогноз Акций"))
         self.pushButton.setText(_translate("MainWindow", "Начать"))
