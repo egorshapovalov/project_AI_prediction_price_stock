@@ -78,7 +78,7 @@ stylesheet_start = """
     }
 """
 
-class Ui_MainWindow(object):
+class Ui_StartWindow(object):
     def setupUi_start(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(390, 372)
@@ -171,23 +171,31 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "AFK Система - Выбор акций"))
 
-        self.pushButton.clicked.connect(lambda: self.setupUi(MainWindow, "mts"))
+        self.pushButton.clicked.connect(lambda: self.start_main_window("mts"))
         self.pushButton.setIcon(QtGui.QIcon("date/mts_logo_cmyk.png"))
         self.pushButton.setIconSize(QtCore.QSize(141, 121))
 
-        self.pushButton_2.clicked.connect(lambda: self.setupUi(MainWindow, "sber"))
+        self.pushButton_2.clicked.connect(lambda: self.start_main_window("sber"))
         self.pushButton_2.setIcon(QtGui.QIcon("date/sberbank.png"))
         self.pushButton_2.setIconSize(QtCore.QSize(141, 121))
 
-        self.pushButton_3.clicked.connect(lambda: self.setupUi(MainWindow, "etlndr"))
+        self.pushButton_3.clicked.connect(lambda: self.start_main_window("etlndr"))
         self.pushButton_3.setIcon(QtGui.QIcon("date/etanolgroup.png"))
         self.pushButton_3.setIconSize(QtCore.QSize(141, 121))
 
-        self.pushButton_4.clicked.connect(lambda: self.setupUi(MainWindow, "yndx"))
+        self.pushButton_4.clicked.connect(lambda: self.start_main_window("yndx"))
         self.pushButton_4.setIcon(QtGui.QIcon("date/yandex.png"))
         self.pushButton_4.setIconSize(QtCore.QSize(141, 121))
 
+    def start_main_window(self, model):
+        self.MainWindow = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self.MainWindow, model)
+        self.MainWindow.show()
+
+class Ui_MainWindow(object):
     def setupUi(self, MainWindow, model):
+
         self.model = model
 
         MainWindow.setObjectName("MainWindow")
@@ -335,6 +343,9 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         title_window = {"yndx": "Yandex", "mts": "MTS", "sber": "SberBank", "etlndr": "Etalon Group"}
         MainWindow.setWindowTitle(_translate("MainWindow", f"AFK Система - Прогноз Акций {title_window[self.model]}"))
+        icon = QtGui.QIcon('date/icon_16.png')
+        MainWindow.setWindowIcon(icon)
+
         self.pushButton_update_figure.setText(_translate("MainWindow", "Обновить График"))
         self.pushButton_update_figure.clicked.connect(self.button_update_figure)
         self.label_end_price.setText(_translate("MainWindow", "0 ₽"))
@@ -414,8 +425,8 @@ class Ui_MainWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi_start(MainWindow)
-    MainWindow.show()
+    StartWindow = QtWidgets.QMainWindow()
+    ui = Ui_StartWindow()
+    ui.setupUi_start(StartWindow)
+    StartWindow.show()
     sys.exit(app.exec_())
