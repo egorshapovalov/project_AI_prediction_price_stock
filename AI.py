@@ -5,7 +5,8 @@ import pandas as pd
 import datetime
 
 # загружаем модель
-models = {"yndx":load('model_mts.joblib'), "mts":load('model_mts.joblib'), "sber":load('model_sber.joblib'), "etlndr": load('model_etlndr.joblib')}
+models = {"yndx":load('date/model_mts.joblib'), "mts":load('date/model_mts.joblib'), "sber":load(
+    'date/model_sber.joblib'), "etlndr": load('date/model_etlndr.joblib')}
 
 def start_model(model, start_date:datetime.date, end_date:datetime.date=None):
     if end_date is None:
