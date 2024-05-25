@@ -16,6 +16,7 @@ import matplotlib.dates as mdates
 import datetime
 
 import AI
+
 stylesheet_main = """
     QWidget {
     background-color: #FFFFFF; /* Цвет фона контейнера-виджета */
@@ -73,6 +74,10 @@ stylesheet_start = """
     QPushButton:hover {
         background-color: #FFFFFF; /* Цвет фона кнопки */
         color: #E74C3C;
+    }
+    QPushButton{
+        border: none; 
+        padding: 0px; 
     }
     
     /* Стиль для текста */
@@ -133,12 +138,68 @@ class Ui_MainWindow(object):
         MainWindow.setWindowIcon(icon)
         self.label.setText(_translate("MainWindow", "Прогноз Акций"))
         self.pushButton.setText(_translate("MainWindow", "Начать"))
-        self.pushButton.clicked.connect(lambda: self.close_window_start_window(MainWindow))
+        self.pushButton.clicked.connect(lambda: self.setupUi_choice(MainWindow))
 
-    def close_window_start_window(self, MainWindow):
-        self.setupUi(MainWindow)
+    def setupUi_choice(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(390, 372)
+        MainWindow.setStyleSheet(stylesheet_start)
+        MainWindow.setMinimumSize(QtCore.QSize(390, 372))
+        MainWindow.setMaximumSize(QtCore.QSize(390, 372))
 
-    def setupUi(self, MainWindow):
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(70, 40, 128, 128))
+        self.pushButton.setObjectName("pushButton_stock")
+
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(200, 40, 128, 128))
+        self.pushButton_2.setObjectName("pushButton_stock")
+
+        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_3.setGeometry(QtCore.QRect(70, 170, 128, 128))
+        self.pushButton_3.setObjectName("pushButton_stock")
+
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setGeometry(QtCore.QRect(200, 170, 128, 128))
+        self.pushButton_4.setObjectName("pushButton_stock")
+
+        self.pixmap_logo_AFKsystem = QtWidgets.QLabel(self.centralwidget)
+        self.pixmap_logo_AFKsystem.setGeometry(QtCore.QRect(70, 300, 0, 0))
+        pixmap = QtGui.QPixmap("./logo_AFK.png")  # Укажите путь к вашему изображению
+        self.pixmap_logo_AFKsystem.setPixmap(pixmap)
+        self.pixmap_logo_AFKsystem.resize(pixmap.width(), pixmap.height())
+
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi_choice(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi_choice(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "AFK Система - Выбор акций"))
+
+        self.pushButton.clicked.connect(lambda: self.setupUi(MainWindow, "mts"))
+        self.pushButton.setIcon(QtGui.QIcon("mts_logo_cmyk.png"))
+        self.pushButton.setIconSize(QtCore.QSize(141, 121))
+
+        self.pushButton_2.clicked.connect(lambda: self.setupUi(MainWindow, "sber"))
+        self.pushButton_2.setIcon(QtGui.QIcon("sberbank.png"))
+        self.pushButton_2.setIconSize(QtCore.QSize(141, 121))
+
+        self.pushButton_3.clicked.connect(lambda: self.setupUi(MainWindow, "etlndr"))
+        self.pushButton_3.setIcon(QtGui.QIcon("etanolgroup.png"))
+        self.pushButton_3.setIconSize(QtCore.QSize(141, 121))
+
+        self.pushButton_4.clicked.connect(lambda: self.setupUi(MainWindow, "yndx"))
+        self.pushButton_4.setIcon(QtGui.QIcon("yandex.png"))
+        self.pushButton_4.setIconSize(QtCore.QSize(141, 121))
+
+    def setupUi(self, MainWindow, model):
+        self.model = model
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(680, 451)
         MainWindow.setAcceptDrops(False)
@@ -165,7 +226,8 @@ class Ui_MainWindow(object):
         self.axes.xaxis.set_major_locator(mdates.MonthLocator())
         self.axes.xaxis.set_major_formatter(mdates.DateFormatter("%m"))
         self.axes.xaxis.set_minor_locator(mdates.DayLocator())
-        self.axes.set_title("Акции MTS")
+        title_axes = {"yndx": "Yandex", "mts": "MTS", "sber": "SberBank", "etlndr": "Etalon Group"}
+        self.axes.set_title(f"Акции {title_axes[self.model]}")
         self.axes.yaxis.set_label_text("Цена (В Рублях)", size=6)
         self.axes.xaxis.set_label_text("Дата", size=6)
         self.line, = self.axes.plot([], [])
@@ -281,7 +343,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "AFK Система - Прогноз Акций MTS"))
+        title_window = {"yndx": "Yandex", "mts": "MTS", "sber": "SberBank", "etlndr": "Etalon Group"}
+        MainWindow.setWindowTitle(_translate("MainWindow", f"AFK Система - Прогноз Акций {title_window[self.model]}"))
         self.pushButton_update_figure.setText(_translate("MainWindow", "Обновить График"))
         self.pushButton_update_figure.clicked.connect(self.button_update_figure)
         self.label_end_price.setText(_translate("MainWindow", "0 ₽"))
@@ -307,12 +370,10 @@ class Ui_MainWindow(object):
         self.pushButton_priceOneDay.setText(_translate("MainWindow", "Поиск"))
         self.pushButton_priceOneDay.clicked.connect(self.button_PriceOneDay)
 
-
-
     def button_update_figure(self):
         if self.dateEdit_end.date().toPyDate() <= self.dateEdit_start.date().toPyDate():
             return
-        self.Table = AI.start_model(self.dateEdit_start.date().toPyDate(), self.dateEdit_end.date().toPyDate())
+        self.Table = AI.start_model(self.model, self.dateEdit_start.date().toPyDate(), self.dateEdit_end.date().toPyDate())
         self.label_end_price.setText(f"{self.Table[1][-1]:.2f} ₽")
         self.line.set_data(self.Table[0], self.Table[1])
         self.axes.set_ylim(min(self.Table[1]), max(self.Table[1])+1)
@@ -326,7 +387,7 @@ class Ui_MainWindow(object):
         elif event == 1 and hasattr(self, 'Table'):
             #Уменьшение диапозона графика
             date_end = self.Table[0][len(self.Table[0])-1]-datetime.timedelta(days=days)
-            if date_end.date() >= self.dateEdit_start.date().toPyDate():
+            if date_end.date() > self.dateEdit_start.date().toPyDate():
                 self.dateEdit_end.setDateTime(
                     QtCore.QDateTime(QtCore.QDate(date_end.year, date_end.month, date_end.day), QtCore.QTime(0, 0, 0)))
                 self.button_update_figure()
@@ -356,8 +417,7 @@ class Ui_MainWindow(object):
         self.figure.canvas.draw()
 
     def button_PriceOneDay(self):
-        Table = AI.start_model(self.dateEdit_priceoneday.date().toPyDate())
-        # self.label_text_price_OneDay.setText(f"Значение дня ({self.dateEdit_priceoneday.date().toPyDate()})")
+        Table = AI.start_model(self.model, self.dateEdit_priceoneday.date().toPyDate())
         self.label_price_OneDay.setText(f"{Table[1][-1]:.2f} ₽")
 
 
