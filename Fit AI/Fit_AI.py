@@ -4,7 +4,7 @@ import pandas as pd
 from joblib import dump
 
 # Загружаем данные ирисов
-df = pd.read_csv('Прошлые данные - YNDX.csv')
+df = pd.read_csv('Прошлые данные - ETLNDR.csv')
 # Преобразуем столбец "Дата" в числовой формат
 df["Дата"] = pd.to_datetime(df["Дата"], format="%d.%m.%Y")
 
@@ -21,5 +21,5 @@ model = RandomForestRegressor(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
 # сохраняем модель
-dump(model, 'model_yndx.joblib')
+dump(model, 'model_etlndr.joblib')
 
